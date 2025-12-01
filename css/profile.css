@@ -1,0 +1,277 @@
+.profile-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 20px;
+}
+
+.sidebar {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    height: fit-content;
+}
+
+.nav-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-dark);
+}
+
+.nav-item:hover {
+    background-color: var(--bg-light);
+}
+
+.nav-item.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.content {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    padding: 30px;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.section-title {
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+}
+
+.address-card {
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.address-card h4 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.address-card p {
+    color: var(--text-light);
+    margin-bottom: 5px;
+}
+
+.address-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.order-card {
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.order-id {
+    font-weight: 600;
+    color: var(--primary-color);
+    user-select: all;
+}
+
+.order-status {
+    padding: 6px 15px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.status-ordered {
+    background-color: #fef3cd;
+    color: #856404;
+}
+
+.status-delivered {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.status-received {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.order-details {
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.order-details p {
+    margin-bottom: 5px;
+}
+
+.order-track {
+    margin-top: 15px;
+}
+
+.payment-card {
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.payment-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.payment-info i {
+    font-size: 32px;
+    color: var(--primary-color);
+}
+
+.notification-item {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    gap: 15px;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-icon {
+    width: 40px;
+    height: 40px;
+    background-color: var(--bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.notification-icon svg {
+    height: 100%;
+    width: 100%;
+    color: var(--primary-color);
+}
+
+.notification-content h4 {
+    color: var(--text-dark);
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.notification-content p {
+    color: var(--text-light);
+    font-size: 13px;
+}
+
+.notification-time {
+    color: var(--text-light);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.add-new-btn {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .nav-item {
+        font-size: 14px;
+        padding: 12px 15px;
+    }
+
+    .content {
+        padding: 20px;
+    }
+
+    .section-title {
+        font-size: 20px;
+    }
+
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .payment-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .sidebar {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-item {
+        padding: 15px;
+    }
+
+    .content {
+        padding: 15px;
+    }
+
+    .address-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

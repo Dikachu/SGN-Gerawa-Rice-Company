@@ -1,0 +1,62 @@
+/* Checkout Styles */
+.checkout-grid {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 30px;
+}
+
+.section-title {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.form-section {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    padding: 1.6rem;
+    margin-bottom: 20px;
+}
+
+.coupon-section {
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    padding: 1.3rem;
+    margin-bottom: 20px;
+
+    .coupon-input-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    input {
+        flex: 1;
+        text-transform: uppercase;
+    }
+}
+
+.applied-coupon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    background: #e8f5e9;
+    border: 1px solid #4caf50;
+    margin-top: 10px;
+    color: #2e7d32;
+}
+
+.applied-coupon .remove-coupon {
+    background: none;
+    border: none;
+    color: #2e7d32;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+
+/* Responsive */
+@media (max-width: 968px) {
+    .checkout-grid {
+        grid-template-columns: 1fr;
+    }
+}
