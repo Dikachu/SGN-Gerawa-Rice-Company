@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .price-filter-container {
+            width: 300px;
+            /* Adjust as needed */
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        /* --- Header Styling --- */
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Custom down arrow icon (replicates the image) */
+        .arrow-icon {
+            border: solid #333;
+            border-width: 0 3px 3px 0;
+            display: inline-block;
+            padding: 3px;
+            transform: rotate(45deg);
+            cursor: pointer;
+        }
+
+        /* --- Price Display Styling --- */
+        .price-display {
+            font-size: 1.1em;
+            margin-top: 15px;
+            color: #666;
+            /* Lighter color as in the image */
+        }
+
+        .price-display span {
+            font-weight: bold;
+            color: #666;
+            /* Keep price values the same color */
+        }
+
+        /* --- Slider Styling (The most complex part) --- */
+        .slider-box {
+            position: relative;
+            height: 40px;
+            /* Space for the track and thumbs */
+            margin: 0 5px;
+        }
+
+        /* The visual track line */
+        .slider-track {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+        }
+
+        .track-line {
+            height: 5px;
+            background-color: #ddd;
+            /* Light grey track background */
+            border-radius: 5px;
+        }
+
+        /* The filled part of the range */
+        .range-filled {
+            position: absolute;
+            top: 0;
+            height: 5px;
+            background-color: #000;
+            /* Black color for the selected range */
+            border-radius: 5px;
+        }
+
+        /* Style for the range inputs themselves */
+        #min-price-range,
+        #max-price-range {
+            /* -webkit-appearance: none; */
+            /* Override default styles */
+            pointer-events: none;
+            /* Allows clicks to pass through to the lower range */
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 0;
+            /* Make the input itself invisible, we only style the thumbs */
+            opacity: 0;
+            /* Fallback for browsers that don't support appearance: none */
+            margin: 0;
+        }
+
+        /* Custom styling for the THUMB (the circle handle) */
+        /* Reset for all browsers */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            pointer-events: all;
+            background: #fff;
+            /* White thumb interior */
+            border: 2px solid #000;
+            /* Black border */
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-top: 0;
+            /* Correct vertical alignment */
+            opacity: 1;
+            z-index: 2;
+            /* Ensure thumb is above the track */
+        }
+
+        input[type=range]::-moz-range-thumb {
+            pointer-events: all;
+            background: #fff;
+            border: 2px solid #000;
+            height: 14px;
+            width: 14px;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 1;
+            z-index: 2;
+        }
+
+        /* Make the track transparent for both sliders, we use .track-line instead */
+        input[type=range]::-webkit-slider-runnable-track {
+            background: transparent;
+        }
+
+        input[type=range]::-moz-range-track {
+            background: transparent;
+        }
+
+        /* To ensure the max thumb appears on top visually */
+        #max-price-range {
+            z-index: 1;
+            /* Keep the max slider visually on top of the min slider's thumb area */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="price-filter-container">
+        <div class="filter-header">
+            <label for="price-range-slider">Price</label>
+            <span class="arrow-icon"></span>
+        </div>
+
+        <div class="slider-box">
+            <input type="range" id="min-price-range" min="0" max="500" value="0" step="1">
+            <input type="range" id="max-price-range" min="0" max="500" value="433" step="1">
+
+            <div class="slider-track">
+                <div class="track-line"></div>
+                <div class="range-filled"></div>
+            </div>
+        </div>
+
+        <p class="price-display">
+            Price: <span id="min-price-value">$0</span> - <span id="max-price-value">$433</span>
+        </p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const minRange = document.getElementById('min-price-range');
+            const maxRange = document.getElementById('max-price-range');
+            const minDisplay = document.getElementById('min-price-value');
+            const maxDisplay = document.getElementById('max-price-value');
+            const rangeFilled = document.querySelector('.range-filled');
+
+            // Define the overall maximum value (must match the max attribute in HTML)
+            const MAX_PRICE = 500;
+            // Define a minimum gap between the two thumbs
+            const MIN_GAP = 10;
+
+            // Function to calculate and update the visual filled range
+            function updateRangeFill() {
+                const minVal = parseInt(minRange.value);
+                const maxVal = parseInt(maxRange.value);
+
+                // Calculate the percentage position for the left and width for the fill
+                const leftPercent = (minVal / MAX_PRICE) * 100;
+                const widthPercent = ((maxVal - minVal) / MAX_PRICE) * 100;
+
+                rangeFilled.style.left = `${leftPercent}%`;
+                rangeFilled.style.width = `${widthPercent}%`;
+            }
+
+            // Function to handle changes on the MIN slider
+            function controlMinRange() {
+                let minVal = parseInt(minRange.value);
+                const maxVal = parseInt(maxRange.value);
+
+                // Ensure min value doesn't cross over the max value (minus the gap)
+                if (minVal > maxVal - MIN_GAP) {
+                    minRange.value = maxVal - MIN_GAP;
+                    minVal = maxVal - MIN_GAP;
+                }
+
+                minDisplay.textContent = `$${minVal}`;
+                updateRangeFill();
+            }
+
+            // Function to handle changes on the MAX slider
+            function controlMaxRange() {
+                let maxVal = parseInt(maxRange.value);
+                const minVal = parseInt(minRange.value);
+
+                // Ensure max value doesn't drop below the min value (plus the gap)
+                if (maxVal < minVal + MIN_GAP) {
+                    maxRange.value = minVal + MIN_GAP;
+                    maxVal = minVal + MIN_GAP;
+                }
+
+                maxDisplay.textContent = `$${maxVal}`;
+                updateRangeFill();
+            }
+
+            // Initial setup
+            controlMinRange();
+            controlMaxRange();
+
+            // Event listeners
+            minRange.addEventListener('input', controlMinRange);
+            maxRange.addEventListener('input', controlMaxRange);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart & Checkout</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid var(--border-color);
+
+            .tab {
+                flex: 1;
+                padding: 15px 20px;
+                border-bottom: 3px solid transparent;
+                margin-bottom: -2px;
+            }
+
+            .tab.active {
+                color: var(--primary-color);
+                border-bottom-color: var(--accent-color);
+            }
+        }
+
+        .tab-content {
+            display: none;
+            padding-top: 2rem;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cart Styles */
+        .cart-item {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .item-image {
+            width: 100px;
+            aspect-ratio: 1;
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .item-details {
+            flex: 1;
+
+            .item-name {
+                font-size: 1.3rem;
+                margin-bottom: 5px;
+            }
+
+            .item-price {
+                font-size: 1.2rem;
+                color: var(--accent-color);
+                font-weight: 600;
+            }
+        }
+
+        .item-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-end;
+
+            .quantity-control {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                border: 1px solid var(--border-color);
+
+                button {
+                    width: 35px;
+                    height: 35px;
+                    background: var(--bg-light);
+                    color: var(--text-dark);
+                    padding: 10px;
+                    cursor: pointer;
+                }
+
+                button:hover {
+                    background: var(--primary-color);
+                    color: var(--white);
+                }
+
+                input {
+                    width: 50px;
+                    text-align: center;
+                    border: none;
+                    font-weight: 600;
+                }
+
+                input:focus {
+                    border: none;
+                    outline: none;
+                    box-shadow: unset;
+                }
+            }
+
+            .remove-button {
+                padding: 8px 12px;
+                border-radius: 5px;
+                border: 1px solid #dc3545;
+                color: var(--text-light);
+                cursor: pointer;
+                color: #dc3545;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+            }
+
+            .remove-button:hover {
+                background-color: #dc3545;
+                color: var(--white);
+            }
+        }
+
+        /* Summary Styles */
+        .summary-box {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            margin-top: 20px;
+
+            .summary-title {
+                padding-bottom: 15px;
+                border-bottom: 2px solid var(--border-color);
+            }
+
+            .summary-row {
+                display: flex;
+                justify-content: space-between;
+                padding: 12px 0;
+                align-items: center;
+            }
+
+            .summary-row.total {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: var(--primary-color);
+                padding-top: 15px;
+                border-top: 2px solid var(--border-color);
+                margin-top: 10px;
+            }
+
+            button {
+                width: 100%;
+                margin-top: 20px;
+            }
+
+            button:hover {
+                gap: 10px;
+            }
+        }
+
+        /* Checkout Styles */
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .form-section {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            padding: 1.6rem;
+            margin-bottom: 20px;
+
+            .form-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+        }
+
+        .coupon-section {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            padding: 1.3rem;
+            margin-bottom: 20px;
+
+            .coupon-input-group {
+                display: flex;
+                gap: 10px;
+            }
+
+            input {
+                flex: 1;
+                text-transform: uppercase;
+            }
+        }
+
+        /* .payment-methods {
+            display: grid;
+            gap: 15px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .payment-option:hover {
+            border-color: var(--primary-color);
+        }
+
+        .payment-option.selected {
+            border-color: var(--accent-color);
+            background: var(--bg-light);
+        } 
+
+        .payment-option input[type="radio"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .payment-option i {
+            margin-left: auto;
+            font-size: 24px;
+            color: var(--text-light);
+        } */
+
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 1.5rem;
+            background: var(--white);
+            border: 1px solid var(--border-color);
+
+            svg {
+                height: 5rem;
+                width: 5rem;
+                color: var(--text-light);
+                margin-bottom: 20px;
+            }
+
+            h3 {
+                margin-bottom: 10px;
+            }
+
+            p {
+                margin-bottom: 25px;
+            }
+        }
+
+
+        .applied-coupon {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: #e8f5e9;
+            border: 1px solid #4caf50;
+            margin-top: 10px;
+            color: #2e7d32;
+        }
+
+        .applied-coupon .remove-coupon {
+            background: none;
+            border: none;
+            color: #2e7d32;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+
+                .item-image {
+                    width: 80px;
+                    height: 80px;
+                }
+
+                .item-actions {
+                    width: 100%;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 20px;
+                    flex-wrap: wrap;
+                }
+            }
+
+            .tab {
+                white-space: nowrap;
+            }
+
+            .coupon-input-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="tabs">
+            <butto/n class="tab active" onclick="switchTab('cart')">
+                <i class="fas fa-shopping-cart"></i> Cart
+            </butto>
+            <button class="tab" onclick="switchTab('checkout')">
+                <i class="fas fa-credit-card"></i> Checkout
+            </button>
+        </div>
+
+        <!-- Cart Tab -->
+        <section id="cart-tab" class="tab-content">
+            <div id="cart-items">
+                <div class="cart-item">
+                    <div class="item-image">
+                        <img src="images/products/rice.jpeg" alt="">
+                    </div>
+                    <div class="item-details">
+                        <h4 class="item-name">
+                            Premium Wireless Headphones
+                        </h4>
+                        <div class="item-price">$299.00</div>
+                        <!-- <p class="meta">
+                            <strong>Weight:</strong>5kg, 
+                            <strong>Brand:</strong>Premium
+                            <strong>Category:</strong>Long Grain
+                        </p> -->
+                    </div>
+                    <div class="item-actions">
+                        <div class="quantity-control">
+                            <button class="quantity-button" onclick="updateQuantity(this, -1)">
+                                -
+                            </button>
+                            <input type="text" class="quantity-input" value="1" readonly>
+                            <button class="quantity-button" onclick="updateQuantity(this, 1)">
+                                +
+                            </button>
+                        </div>
+                        <button class="remove-button" onclick="removeItem(this)">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                                <path
+                                    d="M232.7 69.9L224 96L128 96C110.3 96 96 110.3 96 128C96 145.7 110.3 160 128 160L512 160C529.7 160 544 145.7 544 128C544 110.3 529.7 96 512 96L416 96L407.3 69.9C402.9 56.8 390.7 48 376.9 48L263.1 48C249.3 48 237.1 56.8 232.7 69.9zM512 208L128 208L149.1 531.1C150.7 556.4 171.7 576 197 576L443 576C468.3 576 489.3 556.4 490.9 531.1L512 208z" />
+                            </svg>Remove
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-box">
+                <h3 class="summary-title section-title">
+                    Order Summary
+                </h3>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="subtotal">$625.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span id="shipping">$15.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax</span>
+                    <span id="tax">$51.20</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span id="total">$691.20</span>
+                </div>
+                <button class="btn btn-secondary" onclick="switchTab('checkout')">
+                    Proceed to Checkout
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                        <path
+                            d="M566.6 342.6C579.1 330.1 579.1 309.8 566.6 297.3L406.6 137.3C394.1 124.8 373.8 124.8 361.3 137.3C348.8 149.8 348.8 170.1 361.3 182.6L466.7 288L96 288C78.3 288 64 302.3 64 320C64 337.7 78.3 352 96 352L466.7 352L361.3 457.4C348.8 469.9 348.8 490.2 361.3 502.7C373.8 515.2 394.1 515.2 406.6 502.7L566.6 342.7z" />
+                    </svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- Checkout Tab -->
+        <section id="checkout-tab" class="tab-content active">
+            <div class="checkout-grid">
+                <div>
+                    <!-- Shipping Information -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            Shipping Information
+                        </h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">First Name *</label>
+                                <input type="text" class="form-input" placeholder="John">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name *</label>
+                                <input type="text" class="form-input" placeholder="Doe">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address *</label>
+                            <input type="email" class="form-input" placeholder="john.doe@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number *</label>
+                            <input type="tel" class="form-input" placeholder="+1 (555) 000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Address *</label>
+                            <input type="text" class="form-input" placeholder="Street address">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">City *</label>
+                                <input type="text" class="form-input" placeholder="City">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">State *</label>
+                                <select class="form-select">
+                                    <option>Select State</option>
+                                    <option>California</option>
+                                    <option>New York</option>
+                                    <option>Texas</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">ZIP Code *</label>
+                                <input type="text" class="form-input" placeholder="12345">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Country *</label>
+                                <select class="form-select">
+                                    <option>United States</option>
+                                    <option>Canada</option>
+                                    <option>United Kingdom</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <!-- <div class="form-section">
+                        <div class="section-title">
+                            <i class="fas fa-credit-card"></i>
+                            Payment Method
+                        </div>
+                        <div class="payment-methods">
+                            <label class="payment-option selected">
+                                <input type="radio" name="payment" checked>
+                                <span>Credit Card</span>
+                                <i class="fas fa-credit-card"></i>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment">
+                                <span>Debit Card</span>
+                                <i class="fas fa-credit-card"></i>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment">
+                                <span>PayPal</span>
+                                <i class="fab fa-paypal"></i>
+                            </label>
+                        </div>
+
+                        <div style="margin-top: 25px;">
+                            <div class="form-group">
+                                <label class="form-label">Card Number *</label>
+                                <input type="text" class="form-input" placeholder="1234 5678 9012 3456">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Cardholder Name *</label>
+                                <input type="text" class="form-input" placeholder="John Doe">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Expiry Date *</label>
+                                    <input type="text" class="form-input" placeholder="MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">CVV *</label>
+                                    <input type="text" class="form-input" placeholder="123">
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+
+                <!-- Order Summary Sidebar -->
+                <div>
+                    <!-- Coupon Section -->
+                    <div class="coupon-section">
+                        <h4 class="section-title">
+                            Apply Coupon
+                        </h4>
+                        <div class="coupon-input-group">
+                            <input type="text" class="coupon-input" id="couponCode" placeholder="Enter coupon code">
+                            <button class="btn-secondary" onclick="applyCoupon()">Apply</button>
+                        </div>
+                        <div id="couponMessage"></div>
+                    </div>
+
+                    <div class="summary-box">
+                        <h4 class="section-title summary-title">
+                            Order Summary
+                        </h4>
+                        <div class="summary-row">
+                            <span>Subtotal (3 items)</span>
+                            <span>$625.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span>$15.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax (8%)</span>
+                            <span>$51.20</span>
+                        </div>
+                        <div class="summary-row" id="discountRow" style="color: #4caf50;">
+                            <span>Discount</span>
+                            <span id="discountAmount">-$0.00</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span id="checkoutTotal">$691.20</span>
+                        </div>
+                        <button class="btn-secondary" onclick="placeOrder()">
+                            Place Order
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            if (tab === 'cart') {
+                document.querySelector('.tab:nth-child(1)').classList.add('active');
+                document.getElementById('cart-tab').classList.add('active');
+            } else {
+                document.querySelector('.tab:nth-child(2)').classList.add('active');
+                document.getElementById('checkout-tab').classList.add('active');
+            }
+        }
+
+        function updateQuantity(btn, change) {
+            const input = btn.parentElement.querySelector('.quantity-input');
+            let value = parseInt(input.value) + change;
+            if (value < 1) value = 1;
+            input.value = value;
+            calculateTotal();
+        }
+
+        function removeItem(btn) {
+            const item = btn.closest('.cart-item');
+            item.remove();
+            calculateTotal();
+
+            if (document.querySelectorAll('.cart-item').length === 0) {
+                document.getElementById('cart-items').innerHTML = `
+                    <div class="empty-cart">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                        <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/>
+                        <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                        </svg>
+
+                        <h3>Your cart is empty</h3>
+                        <p>Add items to get started</p>
+                        <button class="btn-primary">
+                            Continue Shopping
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function calculateTotal() {
+            const items = document.querySelectorAll('.cart-item');
+            let subtotal = 0;
+
+            items.forEach(item => {
+                const priceText = item.querySelector('.item-price').textContent;
+                const price = parseFloat(priceText.replace('$', ''));
+                const quantity = parseInt(item.querySelector('.quantity-input').value);
+                subtotal += price * quantity;
+            });
+
+            const shipping = 15;
+            const tax = subtotal * 0.08;
+            const total = subtotal + shipping + tax;
+
+            document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
+            document.getElementById('shipping').textContent = '$' + shipping.toFixed(2);
+            document.getElementById('tax').textContent = '$' + tax.toFixed(2);
+            document.getElementById('total').textContent = '$' + total.toFixed(2);
+            document.getElementById('checkoutTotal').textContent = '$' + total.toFixed(2);
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('couponCode').value.trim().toUpperCase();
+            const messageDiv = document.getElementById('couponMessage');
+
+            // Demo coupons
+            const coupons = {
+                'SAVE10': 10,
+                'SAVE20': 20,
+                'WELCOME': 15
+            };
+
+            if (coupons[code]) {
+                const discount = coupons[code];
+                const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace('$', ''));
+                const discountAmount = subtotal * (discount / 100);
+
+                document.getElementById('discountRow').style.display = 'flex';
+                document.getElementById('discountAmount').textContent = '-$' + discountAmount.toFixed(2);
+
+                const shipping = 15;
+                const tax = subtotal * 0.08;
+                const newTotal = subtotal + shipping + tax - discountAmount;
+                document.getElementById('checkoutTotal').textContent = '$' + newTotal.toFixed(2);
+
+                messageDiv.innerHTML = `
+                    <div class="applied-coupon">
+                        <span>
+                            <i class="fas fa-check-circle"></i> 
+                            Coupon "${code}" applied! ${discount}% off
+                        </span>
+                        <button class="remove-coupon" onclick="removeCoupon()">
+                            &times;
+                        </button>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div style="color: #dc3545; margin-top: 10px; font-size: 14px;">
+                        <i class="fas fa-exclamation-circle"></i> Invalid coupon code
+                    </div>
+                `;
+                setTimeout(() => messageDiv.innerHTML = '', 3000);
+            }
+        }
+
+        function removeCoupon() {
+            document.getElementById('discountRow').style.display = 'none';
+            document.getElementById('couponCode').value = '';
+            document.getElementById('couponMessage').innerHTML = '';
+            calculateTotal();
+        }
+
+        function placeOrder() {
+            alert('Order placed successfully! Thank you for your purchase.');
+        }
+
+        // Payment method selection
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.addEventListener('click', function () {
+                document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                this.querySelector('input[type="radio"]').checked = true;
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -11,7 +11,7 @@
 }
 
 .nav-item {
-    padding: 15px 20px;
+    padding: 1rem 1.5rem;
     border-bottom: 1px solid var(--border-color);
     cursor: pointer;
     display: flex;
@@ -32,7 +32,7 @@
 .content {
     background-color: var(--white);
     border: 1px solid var(--border-color);
-    padding: 30px;
+    padding: 2rem;
 }
 
 .section {
@@ -68,28 +68,12 @@
     padding: 12px;
 }
 
-.address-card {
+/* .address-card {
     border: 1px solid var(--border-color);
     padding: 20px;
     margin-bottom: 15px;
     position: relative;
-}
-
-.address-card h4 {
-    color: var(--primary-color);
-    margin-bottom: 10px;
-}
-
-.address-card p {
-    color: var(--text-light);
-    margin-bottom: 5px;
-}
-
-.address-actions {
-    margin-top: 15px;
-    display: flex;
-    gap: 10px;
-}
+} */
 
 .order-card {
     border: 1px solid var(--border-color);
@@ -104,70 +88,48 @@
     margin-bottom: 15px;
     flex-wrap: wrap;
     gap: 10px;
+
+    .order-id {
+        font-size: 1.1rem;
+        color: var(--primary-color);
+        user-select: all;
+    }
+
+    .order-status {
+        padding: 6px 15px;
+        font-size: .9rem;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+
+    .status-ordered {
+        background-color: #fef3cd;
+        color: #856404;
+    }
+
+    .status-delivered {
+        background-color: #d1ecf1;
+        color: #0c5460;
+    }
+
+    .status-received {
+        background-color: #d4edda;
+        color: #155724;
+    }
 }
 
-.order-id {
-    font-weight: 600;
-    color: var(--primary-color);
-    user-select: all;
+.order-card .cart-item {
+    padding: 0;
+    border: none;
+    gap: 2rem;
+
+    .item-actions a {
+        padding: .8rem 1rem;
+        width: 100%;
+    }
 }
 
-.order-status {
-    padding: 6px 15px;
-    font-size: 12px;
-    font-weight: 500;
-    text-transform: uppercase;
-}
-
-.status-ordered {
-    background-color: #fef3cd;
-    color: #856404;
-}
-
-.status-delivered {
-    background-color: #d1ecf1;
-    color: #0c5460;
-}
-
-.status-received {
-    background-color: #d4edda;
-    color: #155724;
-}
-
-.order-details {
-    color: var(--text-light);
-    font-size: 14px;
-}
-
-.order-details p {
-    margin-bottom: 5px;
-}
-
-.order-track {
-    margin-top: 15px;
-}
-
-.payment-card {
-    border: 1px solid var(--border-color);
-    padding: 20px;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.payment-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.payment-info i {
-    font-size: 32px;
-    color: var(--primary-color);
-}
-
-.notification-item {
+/* .notification-item {
     padding: 15px;
     border-bottom: 1px solid var(--border-color);
     display: flex;
@@ -209,69 +171,29 @@
     color: var(--text-light);
     font-size: 12px;
     margin-top: 5px;
-}
+} */
 
-.add-new-btn {
-    margin-bottom: 20px;
-}
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .profile-grid {
         grid-template-columns: 1fr;
     }
 
     .sidebar {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .nav-item {
-        font-size: 14px;
-        padding: 12px 15px;
-    }
-
-    .content {
-        padding: 20px;
-    }
-
-    .section-title {
-        font-size: 20px;
-    }
-
-    .order-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .payment-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
 }
 
-@media (max-width: 480px) {
-    .container {
-        padding: 10px;
-    }
+@media(max-width: 550px) {
+    .order-card .cart-item {
+        flex-wrap: wrap;
+        .item-image {
+            width: 60px;
+        }
 
-    .sidebar {
-        grid-template-columns: 1fr;
-    }
-
-    .nav-item {
-        padding: 15px;
-    }
-
-    .content {
-        padding: 15px;
-    }
-
-    .address-actions {
-        flex-direction: column;
-    }
-
-    .btn {
-        width: 100%;
+        .item-actions {
+            width: 100%;
+        }
     }
 }

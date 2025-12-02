@@ -64,7 +64,7 @@
                     </button>
                     <div class="profile-dropdown">
                         <a href="profile.html">Profile</a>
-                        <a href="#">Settings</a>
+                        <!-- <a href="#">Settings</a> -->
                         <a href="#" class="logout">Logout</a>
                     </div>
                     <!-- <div class="profile-dropdown">
@@ -306,39 +306,7 @@
                 Cart Items
             </h2>
             <div id="cartItems" class="">
-                <div class="cart-item">
-                    <div class="item-image">
-                        <img src="images/products/rice.jpeg" alt="">
-                    </div>
-                    <div class="item-details">
-                        <h4 class="item-name">
-                            Premium Wireless Headphones
-                        </h4>
-                        <div class="item-price">$299.00</div>
-                        <!-- <p class="meta">
-                            <strong>Weight:</strong>5kg, 
-                            <strong>Brand:</strong>Premium
-                            <strong>Category:</strong>Long Grain
-                        </p> -->
-                    </div>
-                    <div class="item-actions">
-                        <div class="quantity-control">
-                            <button class="quantity-button" onclick="updateQuantity(this, -1)">
-                                -
-                            </button>
-                            <input type="text" class="quantity-input" value="1" readonly>
-                            <button class="quantity-button" onclick="updateQuantity(this, 1)">
-                                +
-                            </button>
-                        </div>
-                        <button class="remove-button" onclick="removeItem(this)">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                                <path
-                                    d="M232.7 69.9L224 96L128 96C110.3 96 96 110.3 96 128C96 145.7 110.3 160 128 160L512 160C529.7 160 544 145.7 544 128C544 110.3 529.7 96 512 96L416 96L407.3 69.9C402.9 56.8 390.7 48 376.9 48L263.1 48C249.3 48 237.1 56.8 232.7 69.9zM512 208L128 208L149.1 531.1C150.7 556.4 171.7 576 197 576L443 576C468.3 576 489.3 556.4 490.9 531.1L512 208z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+                <!-- Will be added dynamically -->
             </div>
             <div class="summary-box" id="cartSummary">
                 <h3 class="summary-title section-title">
@@ -346,19 +314,15 @@
                 </h3>
                 <div class="summary-row">
                     <span>Subtotal</span>
-                    <span class="subtotal">$625.00</span>
+                    <span class="subtotal"></span>
                 </div>
                 <div class="summary-row">
                     <span>Shipping</span>
-                    <span class="shipping">$15.00</span>
+                    <span class="shipping"></span>
                 </div>
-                <!-- <div class="summary-row">
-                    <span>Tax</span>
-                    <span class="tax">$51.20</span>
-                </div> -->
                 <div class="summary-row total">
                     <span>Total</span>
-                    <span class="totalFee">$691.20</span>
+                    <span class="totalFee"></span>
                 </div>
                 <a href="checkout.html" class="btn btn-secondary">
                     Proceed to Checkout

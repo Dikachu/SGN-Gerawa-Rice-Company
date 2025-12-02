@@ -1,8 +1,26 @@
 import { cartManager } from './cart.js';
+
+type HTMLElementType = {
+    [key: string]: HTMLElement | null;
+};
+
+type NodeType = {
+    [key: string]: NodeListOf<HTMLElement> | null;
+};
+
+type CartItem = {
+    readonly id: string;
+    imageSrc: string;
+    name: string;
+    price: number;
+    quantity: number;
+};
+
 class Initializer {
-    element = {};
-    promoTimeout;
-    nodeList = {};
+    private element: HTMLElementType = {};
+    private promoTimeout: number;
+    private nodeList: NodeType = {};
+
     constructor() {
         this.element = {
             cartCount: document.querySelector('.cart-count'),
@@ -14,55 +32,69 @@ class Initializer {
             cartCon: document.getElementById('cartItems'),
             cartSummary: document.getElementById('cartSummary')
         };
+
         this.nodeList = {
             modals: document.querySelectorAll('.modal'),
             addToCartBtns: document.querySelectorAll('.add-to-cart'),
         };
-        this.promoTimeout = 10000;
-        window.removeFromCart = (id) => cartManager.removeItem(id);
-        window.updateQuantity = (id, value) => cartManager.updateQuantity(id, value);
-        window.openCartModal = () => this.openCartModal();
+
+        this.promoTimeout = 10000; // 10 seconds
+
+        // Expose methods to window
+        (window as any).removeFromCart = (id: string) => cartManager.removeItem(id);
+        (window as any).updateQuantity = (id: string, value: number) => cartManager.updateQuantity(id, value);
+        (window as any).openCartModal = () => this.openCartModal();
+
         this.init();
     }
-    init() {
+
+    init(): void {
         console.log("Initializer: Application started.");
+
         this.setupEventListeners();
         this.setupCartListener();
         this.heroTypingEffect();
+
         setTimeout(() => {
             this.closePromo();
         }, this.promoTimeout);
+
         this.loadCartItems();
         this.indicateProductInCart();
     }
+
     setupEventListeners() {
         this.element.navToggle?.addEventListener('click', (e) => {
             e.stopPropagation();
             this.toggleNav();
         });
+
         document.addEventListener('click', (event) => {
-            if (this.element.nav?.classList.contains('active') &&
-                event.target !== this.element.nav &&
-                !this.element.nav.contains(event.target)) {
+            if (this.element.nav?.classList.contains('active') && 
+                event.target !== this.element.nav && 
+                !this.element.nav.contains(event.target as Node)) {
                 this.element.nav.classList.remove('active');
                 this.element.nav.style.top = '';
             }
         });
+
         this.element.closePromoBtn?.addEventListener('click', () => {
             this.closePromo();
         });
+
         this.nodeList.modals?.forEach(modal => {
             const closeModalBtn = modal.querySelector('.close-button');
             closeModalBtn?.addEventListener('click', () => {
                 modal?.classList.remove('show');
             });
         });
+
         document.addEventListener('keydown', (e) => {
-            if (e.key !== "Escape")
-                return;
+            if (e.key !== "Escape") return;
             this.element.nav?.classList.contains('active') ? this.element.nav?.classList.remove('active') : null;
             this.closeAllModals();
         });
+
         window.addEventListener('click', (e) => {
             this.nodeList.modals?.forEach(modal => {
                 if (e.target === modal) {
@@ -70,31 +102,36 @@ class Initializer {
                 }
             });
         });
+
         this.nodeList.addToCartBtns?.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const targetProduct = e.target.closest('.product-container');
-                const item = {
+                const targetProduct = (e.target as HTMLElement).closest('.product-container');
+                const item: CartItem = {
                     id: targetProduct?.getAttribute('data-id') || '',
                     imageSrc: targetProduct?.querySelector('img')?.getAttribute('src') || '',
                     name: targetProduct?.querySelector('.title')?.textContent?.trim() || '',
                     price: parseFloat(targetProduct?.querySelector('.price')?.textContent?.replace('₦', '').replace(',', '') || '0'),
-                    quantity: parseInt(targetProduct?.querySelector('#quantity')?.value) || 1,
+                    quantity: parseInt((targetProduct?.querySelector('#quantity') as HTMLInputElement)?.value) || 1,
                 };
+
                 this.addToCart(item);
             });
         });
     }
-    setupCartListener() {
-        window.addEventListener('cartUpdated', ((e) => {
+
+    // Listen to cart updates from CartManager
+    setupCartListener(): void {
+        window.addEventListener('cartUpdated', ((e: CustomEvent) => {
             this.loadCartItems();
             this.indicateProductInCart();
-        }));
+        }) as EventListener);
     }
+
     heroTypingEffect() {
-        const element = document.getElementById("dynamicWord");
-        if (!element)
-            return;
-        const words = [
+        const element = document.getElementById("dynamicWord") as HTMLElement | null;
+        if (!element) return;
+
+        const words: string[] = [
             "Premium",
             "Perfectly Destoned",
             "Superior Sortexed",
@@ -102,15 +139,18 @@ class Initializer {
             "Proudly Nigerian",
             "Unmatched in Quality"
         ];
+
         let wordIndex = 0;
         let charIndex = 0;
         let deleting = false;
         const typingSpeed = 100;
         const deletingSpeed = 60;
         const delayBetweenWords = 1000;
+
         const type = () => {
-            const currentWord = words[wordIndex];
+            const currentWord = words[wordIndex]!;
             element.textContent = '';
+
             if (!deleting) {
                 element.textContent = currentWord.substring(0, charIndex);
                 charIndex++;
@@ -119,8 +159,7 @@ class Initializer {
                     setTimeout(type, delayBetweenWords);
                     return;
                 }
-            }
-            else {
+            } else {
                 charIndex--;
                 element.textContent = currentWord.substring(0, charIndex);
                 if (charIndex < 0) {
@@ -128,21 +167,25 @@ class Initializer {
                     wordIndex = (wordIndex + 1) % words.length;
                 }
             }
+
             setTimeout(type, deleting ? deletingSpeed : typingSpeed);
         };
+
         type();
     }
+
     toggleNav() {
         this.element.nav?.classList.toggle('active');
-        if (document.getElementById('promoContainer') &&
-            window.scrollY === 0 &&
+
+        if (document.getElementById('promoContainer') && 
+            window.scrollY === 0 && 
             this.element.nav?.classList.contains('active')) {
             this.element.nav.style.top = '112px';
-        }
-        else {
+        } else {
             this.element.nav ? this.element.nav.style.top = '' : null;
         }
     }
+
     closePromo() {
         if (this.element.promoContainer) {
             this.element.promoContainer.style.transform = 'scale(0)';
@@ -152,25 +195,32 @@ class Initializer {
             }, 300);
         }
     }
+
     openCartModal() {
         this.element.cart?.classList.add('show');
     }
+
     closeAllModals() {
         this.nodeList.modals?.forEach(modal => {
             modal?.classList.remove('show');
         });
     }
+
     loadCartItems() {
         const cartItems = cartManager.getItems();
         const summary = cartManager.getCartSummary();
+
+        // Update cart count
         if (this.element.cartCount) {
             this.element.cartCount.textContent = summary.itemCount.toString();
         }
-        if (!this.element.cartCon)
-            return;
+
+        if (!this.element.cartCon) return;
+
         if (cartItems.length > 0) {
             this.element.cartCon.innerHTML = '';
             this.element.cartCon.classList.remove('empty');
+            
             cartItems.forEach(item => {
                 const itemDiv = `
                 <div class="cart-item" data-id="${item.id}">
@@ -200,11 +250,11 @@ class Initializer {
                     </div>
                 </div>
                 `;
-                this.element.cartCon.innerHTML += itemDiv;
+                this.element.cartCon!.innerHTML += itemDiv;
             });
+            
             this.displayCartSummary();
-        }
-        else {
+        } else {
             this.element.cartCon.innerHTML = `
                 <div class="empty-cart">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -219,17 +269,22 @@ class Initializer {
             this.element.cartCon.classList.add('empty');
         }
     }
-    addToCart(item) {
+
+    addToCart(item: CartItem) {
         const added = cartManager.addItem(item);
         if (!added) {
+            // Item already in cart, maybe show a message
             console.log('Item already in cart');
         }
     }
+
     indicateProductInCart() {
-        const products = document.querySelectorAll('.product-container');
+        const products = document.querySelectorAll<HTMLElement>('.product-container');
+        
         products?.forEach(product => {
-            const btn = product.querySelector('.add-to-cart');
+            const btn = product.querySelector('.add-to-cart')!;
             const productId = product.dataset.id || '';
+            
             if (cartManager.isInCart(productId)) {
                 btn.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -238,8 +293,7 @@ class Initializer {
                 View Cart
                 `;
                 btn.setAttribute('onclick', "openCartModal()");
-            }
-            else {
+            } else {
                 btn.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                     <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z" />
@@ -251,23 +305,27 @@ class Initializer {
             }
         });
     }
+
     displayCartSummary() {
         const summary = cartManager.getCartSummary();
-        const subtotalEl = this.element.cartSummary?.querySelector('.subtotal');
+
+        const subtotalEl = this.element.cartSummary?.querySelector('.subtotal') as HTMLElement | null;
         if (subtotalEl) {
             subtotalEl.textContent = `₦ ${summary.subtotal.toLocaleString()}`;
         }
-        const shippingEl = this.element.cartSummary?.querySelector('.shipping');
+
+        const shippingEl = this.element.cartSummary?.querySelector('.shipping') as HTMLElement | null;
         if (shippingEl) {
             shippingEl.textContent = `₦ ${summary.shipping.toLocaleString()}`;
         }
-        const totalEl = this.element.cartSummary?.querySelector('.totalFee');
+
+        const totalEl = this.element.cartSummary?.querySelector('.totalFee') as HTMLElement | null;
         if (totalEl) {
             totalEl.textContent = `₦ ${summary.total.toLocaleString()}`;
         }
     }
 }
+
 document.addEventListener('DOMContentLoaded', () => {
     new Initializer();
 });
-//# sourceMappingURL=main.js.map

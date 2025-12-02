@@ -64,7 +64,7 @@
                     </button>
                     <div class="profile-dropdown">
                         <a href="profile.html">Profile</a>
-                        <a href="#">Settings</a>
+                        <!-- <a href="#">Settings</a> -->
                         <a href="#" class="logout">Logout</a>
                     </div>
                     <!-- <div class="profile-dropdown">
@@ -105,10 +105,6 @@
                             </svg>
                             <span>Personal Info</span>
                         </div>
-                        <!-- <div class="nav-item" onclick="showSection('addresses')">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path></svg>
-                            <span>Addresses</span>
-                        </div> -->
                         <div class="nav-item" onclick="showSection('orders')">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                 <path
@@ -117,10 +113,6 @@
                             </svg>
                             <span>Orders</span>
                         </div>
-                        <!-- <div class="nav-item" onclick="showSection('payment')">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M22.0049 9.99979V19.9998C22.0049 20.5521 21.5572 20.9998 21.0049 20.9998H3.00488C2.4526 20.9998 2.00488 20.5521 2.00488 19.9998V9.99979H22.0049ZM22.0049 7.99979H2.00488V3.99979C2.00488 3.4475 2.4526 2.99979 3.00488 2.99979H21.0049C21.5572 2.99979 22.0049 3.4475 22.0049 3.99979V7.99979ZM15.0049 15.9998V17.9998H19.0049V15.9998H15.0049Z"></path></svg>
-                            <span>Payment</span>
-                        </div> -->
                         <div class="nav-item" onclick="showSection('security')">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                 <path
@@ -141,7 +133,7 @@
 
                     <div class="content">
                         <!-- Personal Info Section -->
-                        <div class="section active" id="personal">
+                        <div class="section " id="personal">
                             <h2 class="section-title">Personal Information</h2>
                             <form>
                                 <div class="form-group">
@@ -156,186 +148,145 @@
                                     <label>Phone Number</label>
                                     <input type="tel" value="+1 234 567 8900" placeholder="Enter your phone number">
                                 </div>
-                                <button type="submit" class="btn btn-secondary">Save Changes</button>
+                                <button type="submit" class="btn btn-secondary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M4 3H17L20.7071 6.70711C20.8946 6.89464 21 7.149 21 7.41421V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V4C3 3.44772 3.44772 3 4 3ZM12 18C13.6569 18 15 16.6569 15 15C15 13.3431 13.6569 12 12 12C10.3431 12 9 13.3431 9 15C9 16.6569 10.3431 18 12 18ZM5 5V9H15V5H5Z">
+                                        </path>
+                                    </svg>
+                                    Save Changes
+                                </button>
+                            </form>
+                            <br>
+                            <h2 class="section-title">Delivery Addresses</h2>
+                            <form>
+                                <div class="form-group">
+                                    <label>Full Address</label>
+                                    <textarea rows="3"
+                                        placeholder="Street address, apartment, suite, etc.">No. 87 Zik's Avenue, garriki road, ohofia bus stop</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Local Govt</label>
+                                    <input type="text" placeholder="Enter your Local Govt"
+                                        value="Enugu South Local Govt.">
+                                </div>
+                                <div class="form-group">
+                                    <label>State / Region</label>
+                                    <input type="text" placeholder="Enter state" value="Enugu State">
+                                </div>
+                                <div class="form-group">
+                                    <label>Country</label>
+                                    <input type="text" placeholder="Enter country" value="Nigeria">
+                                </div>
+                                <!-- <div class="form-group">
+                                    <label>ZIP / Postal Code</label>
+                                    <input type="text" placeholder="Enter ZIP code">
+                                </div> -->
+                                <div style="display: flex; gap: 10px;">
+                                    <button type="submit" class="btn btn-secondary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                            <path
+                                                d="M4 3H17L20.7071 6.70711C20.8946 6.89464 21 7.149 21 7.41421V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V4C3 3.44772 3.44772 3 4 3ZM12 18C13.6569 18 15 16.6569 15 15C15 13.3431 13.6569 12 12 12C10.3431 12 9 13.3431 9 15C9 16.6569 10.3431 18 12 18ZM5 5V9H15V5H5Z">
+                                            </path>
+                                        </svg>
+                                        Save Address
+                                    </button>
+                                </div>
                             </form>
                         </div>
 
-                        <!-- Addresses Section -->
-                        <div class="section" id="addresses">
-                            <h2 class="section-title">Delivery Addresses</h2>
-
-                            <div class="address-card">
-                                <h4>Home</h4>
-                                <p>123 Main Street, Apt 4B</p>
-                                <p>New York, NY 10001</p>
-                                <p>United States</p>
-                                <div class="address-actions">
-                                    <button class="btn btn-outline">Edit</button>
-                                    <button class="btn btn-outline">Delete</button>
-                                </div>
-                            </div>
-
-                            <div class="address-card">
-                                <h4>Office</h4>
-                                <p>456 Business Ave, Suite 200</p>
-                                <p>New York, NY 10002</p>
-                                <p>United States</p>
-                                <div class="address-actions">
-                                    <button class="btn btn-outline">Edit</button>
-                                    <button class="btn btn-outline">Delete</button>
-                                </div>
-                            </div>
-
-                            <button class="btn btn-secondary add-new-btn" onclick="showAddressForm()">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z"></path>
-                                </svg>
-                                Add New Address
-                            </button>
-
-                            <div id="addressForm"
-                                style="display: none; border: 2px solid var(--primary-color); padding: 20px;">
-                                <h3 style="margin-bottom: 15px;">New Address</h3>
-                                <form>
-                                    <div class="form-group">
-                                        <label>Address Label</label>
-                                        <input type="text" placeholder="e.g., Home, Office">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Full Address</label>
-                                        <textarea rows="3"
-                                            placeholder="Street address, apartment, suite, etc."></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Local Govt</label>
-                                        <input type="text" placeholder="Enter your Local Govt">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>State / Region</label>
-                                        <input type="text" placeholder="Enter state">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Country</label>
-                                        <input type="text" placeholder="Enter country">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>ZIP / Postal Code</label>
-                                        <input type="text" placeholder="Enter ZIP code">
-                                    </div>
-                                    <div style="display: flex; gap: 10px;">
-                                        <button type="submit" class="btn btn-primary">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                fill="currentColor">
-                                                <path
-                                                    d="M4 3H17L20.7071 6.70711C20.8946 6.89464 21 7.149 21 7.41421V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V4C3 3.44772 3.44772 3 4 3ZM12 18C13.6569 18 15 16.6569 15 15C15 13.3431 13.6569 12 12 12C10.3431 12 9 13.3431 9 15C9 16.6569 10.3431 18 12 18ZM5 5V9H15V5H5Z">
-                                                </path>
-                                            </svg>
-                                            Save Address
-                                        </button>
-                                        <button type="button" class="btn btn-outline"
-                                            onclick="hideAddressForm()">Cancel</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
                         <!-- Orders Section -->
-                        <div class="section" id="orders">
+                        <div class="section active" id="orders">
                             <h2 class="section-title">Order History</h2>
 
                             <div class="order-card">
                                 <div class="order-header">
-                                    <div class="order-id">Order #12345</div>
+                                    <h2 class="order-id">OrderID #12345</h2>
                                     <div class="order-status status-delivered">Delivered</div>
                                 </div>
-                                <div class="order-details">
-                                    <h5 class="product-tittle">
-                                        Premium Basmati Rice 5kg
-                                    </h5>
-                                    <p><strong>Date:</strong> November 15, 2025</p>
-                                    <p><strong>Total:</strong> $299.99</p>
-                                    <p><strong>Items:</strong> 3 items</p>
-                                </div>
-                                <div class="order-track">
-                                    <a href="invoice.html" class="btn btn-outline">
-                                        View Receipt
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="order-card">
-                                <div class="order-header">
-                                    <div class="order-id">Order #12344</div>
-                                    <div class="order-status status-received">Received</div>
-                                </div>
-                                <div class="order-details">
-                                    <h5 class="product-tittle">
-                                        Premium Basmati Rice 5kg
-                                    </h5>
-                                    <p><strong>Date:</strong> November 10, 2025</p>
-                                    <p><strong>Total:</strong> $149.50</p>
-                                    <p><strong>Items:</strong> 2 items</p>
-                                </div>
-                                <div class="order-track">
-                                    <a href="invoice.html" class="btn btn-outline">
-                                        View Receipt
-                                    </a>
+                                <div class="cart-item" data-id="1">
+                                    <div class="item-image">
+                                        <img src="images/products/product-1.avif" alt="Product Title">
+                                    </div>
+                                    <div class="item-details">
+                                        <h4 class="item-name">
+                                            Product Title
+                                        </h4>
+                                        <div class="item-price">₦24,000.00</div>
+                                        <p class="meta">
+                                            <span>Premium</span>
+                                            <span>Long Grain</span>
+                                            <span>5kg</span>
+                                        </p>
+                                        <p>
+                                            <strong>Quantity:</strong> 1
+                                        </p>
+                                    </div>
+                                    <div class="item-actions">
+                                        <a href="track.html" class="btn btn-outline">
+                                            Track Order
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-
                             <div class="order-card">
                                 <div class="order-header">
-                                    <div class="order-id">Order #12343</div>
+                                    <h2 class="order-id">OrderID #FF222282</h2>
                                     <div class="order-status status-ordered">Ordered</div>
                                 </div>
-                                <div class="order-details">
-                                    <h5 class="product-tittle">
-                                        Premium Basmati Rice 5kg
-                                    </h5>
-                                    <p><strong>Date:</strong> November 28, 2025</p>
-                                    <p><strong>Total:</strong> $89.99</p>
-                                    <p><strong>Items:</strong> 1 item</p>
-                                </div>
-                                <div class="order-track">
-                                    <a href="invoice.html" class="btn btn-outline">
-                                        View Receipt
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Payment Section -->
-                        <div class="section" id="payment">
-                            <h2 class="section-title">Payment Methods</h2>
-                            <button class="btn btn-secondary add-new-btn">
-                                <i class="fas fa-plus"></i> Add New Card
-                            </button>
-
-                            <div class="payment-card">
-                                <div class="payment-info">
-                                    <i class="fab fa-cc-visa"></i>
-                                    <div>
-                                        <h4>Visa ending in 4242</h4>
-                                        <p style="color: var(--text-light); font-size: 14px;">Expires 12/2026</p>
+                                <div class="cart-item" data-id="1">
+                                    <div class="item-image">
+                                        <img src="images/products/product-1.avif" alt="Product Title">
+                                    </div>
+                                    <div class="item-details">
+                                        <h4 class="item-name">
+                                            Product Title
+                                        </h4>
+                                        <div class="item-price">₦24,000.00</div>
+                                        <p class="meta">
+                                            <span>Premium</span>
+                                            <span>Long Grain</span>
+                                            <span>5kg</span>
+                                        </p>
+                                        <p>
+                                            <strong>Quantity:</strong> 1
+                                        </p>
+                                    </div>
+                                    <div class="item-actions">
+                                        <a href="track.html" class="btn btn-outline">
+                                            Track Order
+                                        </a>
                                     </div>
                                 </div>
-                                <div style="display: flex; gap: 10px;">
-                                    <button class="btn btn-outline">Edit</button>
-                                    <button class="btn btn-outline">Remove</button>
-                                </div>
                             </div>
-
-                            <div class="payment-card">
-                                <div class="payment-info">
-                                    <i class="fab fa-cc-mastercard"></i>
-                                    <div>
-                                        <h4>Mastercard ending in 8888</h4>
-                                        <p style="color: var(--text-light); font-size: 14px;">Expires 09/2025</p>
-                                    </div>
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <h2 class="order-id">OrderID #888D8EW8</h2>
+                                    <div class="order-status status-received">Received</div>
                                 </div>
-                                <div style="display: flex; gap: 10px;">
-                                    <button class="btn btn-outline">Edit</button>
-                                    <button class="btn btn-outline">Remove</button>
+                                <div class="cart-item" data-id="1">
+                                    <div class="item-image">
+                                        <img src="images/products/product-1.avif" alt="Product Title">
+                                    </div>
+                                    <div class="item-details">
+                                        <h4 class="item-name">
+                                            Product Title
+                                        </h4>
+                                        <div class="item-price">₦24,000.00</div>
+                                        <p class="meta">
+                                            <span>Premium</span>
+                                            <span>Long Grain</span>
+                                            <span>5kg</span>
+                                        </p>
+                                        <p>
+                                            <strong>Quantity:</strong> 1
+                                        </p>
+                                    </div>
+                                    <div class="item-actions">
+                                        <a href="track.html" class="btn btn-outline">
+                                            Track Order
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -411,7 +362,11 @@
 
                             <div class="notification-item">
                                 <div class="notification-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.9042 2.10025L20.8037 3.51446L22.2179 13.414L13.0255 22.6063C12.635 22.9969 12.0019 22.9969 11.6113 22.6063L1.71184 12.7069C1.32131 12.3163 1.32131 11.6832 1.71184 11.2926L10.9042 2.10025ZM13.7327 10.5855C14.5137 11.3666 15.78 11.3666 16.5611 10.5855C17.3421 9.80448 17.3421 8.53815 16.5611 7.7571C15.78 6.97606 14.5137 6.97606 13.7327 7.7571C12.9516 8.53815 12.9516 9.80448 13.7327 10.5855Z"></path></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M10.9042 2.10025L20.8037 3.51446L22.2179 13.414L13.0255 22.6063C12.635 22.9969 12.0019 22.9969 11.6113 22.6063L1.71184 12.7069C1.32131 12.3163 1.32131 11.6832 1.71184 11.2926L10.9042 2.10025ZM13.7327 10.5855C14.5137 11.3666 15.78 11.3666 16.5611 10.5855C17.3421 9.80448 17.3421 8.53815 16.5611 7.7571C15.78 6.97606 14.5137 6.97606 13.7327 7.7571C12.9516 8.53815 12.9516 9.80448 13.7327 10.5855Z">
+                                        </path>
+                                    </svg>
                                 </div>
                                 <div class="notification-content">
                                     <h4>Special Offer</h4>
@@ -422,7 +377,11 @@
 
                             <div class="notification-item">
                                 <div class="notification-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M22.0049 9.99979V19.9998C22.0049 20.5521 21.5572 20.9998 21.0049 20.9998H3.00488C2.4526 20.9998 2.00488 20.5521 2.00488 19.9998V9.99979H22.0049ZM22.0049 7.99979H2.00488V3.99979C2.00488 3.4475 2.4526 2.99979 3.00488 2.99979H21.0049C21.5572 2.99979 22.0049 3.4475 22.0049 3.99979V7.99979ZM15.0049 15.9998V17.9998H19.0049V15.9998H15.0049Z"></path></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M22.0049 9.99979V19.9998C22.0049 20.5521 21.5572 20.9998 21.0049 20.9998H3.00488C2.4526 20.9998 2.00488 20.5521 2.00488 19.9998V9.99979H22.0049ZM22.0049 7.99979H2.00488V3.99979C2.00488 3.4475 2.4526 2.99979 3.00488 2.99979H21.0049C21.5572 2.99979 22.0049 3.4475 22.0049 3.99979V7.99979ZM15.0049 15.9998V17.9998H19.0049V15.9998H15.0049Z">
+                                        </path>
+                                    </svg>
                                 </div>
                                 <div class="notification-content">
                                     <h4>Payment Method Updated</h4>
@@ -536,39 +495,7 @@
                 Cart Items
             </h2>
             <div id="cartItems" class="">
-                <div class="cart-item">
-                    <div class="item-image">
-                        <img src="images/products/rice.jpeg" alt="">
-                    </div>
-                    <div class="item-details">
-                        <h4 class="item-name">
-                            Premium Wireless Headphones
-                        </h4>
-                        <div class="item-price">$299.00</div>
-                        <!-- <p class="meta">
-                            <strong>Weight:</strong>5kg, 
-                            <strong>Brand:</strong>Premium
-                            <strong>Category:</strong>Long Grain
-                        </p> -->
-                    </div>
-                    <div class="item-actions">
-                        <div class="quantity-control">
-                            <button class="quantity-button" onclick="updateQuantity(this, -1)">
-                                -
-                            </button>
-                            <input type="text" class="quantity-input" value="1" readonly>
-                            <button class="quantity-button" onclick="updateQuantity(this, 1)">
-                                +
-                            </button>
-                        </div>
-                        <button class="remove-button" onclick="removeItem(this)">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                                <path
-                                    d="M232.7 69.9L224 96L128 96C110.3 96 96 110.3 96 128C96 145.7 110.3 160 128 160L512 160C529.7 160 544 145.7 544 128C544 110.3 529.7 96 512 96L416 96L407.3 69.9C402.9 56.8 390.7 48 376.9 48L263.1 48C249.3 48 237.1 56.8 232.7 69.9zM512 208L128 208L149.1 531.1C150.7 556.4 171.7 576 197 576L443 576C468.3 576 489.3 556.4 490.9 531.1L512 208z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+                <!-- Will be added dynamically -->
             </div>
             <div class="summary-box" id="cartSummary">
                 <h3 class="summary-title section-title">
@@ -576,19 +503,15 @@
                 </h3>
                 <div class="summary-row">
                     <span>Subtotal</span>
-                    <span class="subtotal">$625.00</span>
+                    <span class="subtotal"></span>
                 </div>
                 <div class="summary-row">
                     <span>Shipping</span>
-                    <span class="shipping">$15.00</span>
+                    <span class="shipping"></span>
                 </div>
-                <!-- <div class="summary-row">
-                    <span>Tax</span>
-                    <span class="tax">$51.20</span>
-                </div> -->
                 <div class="summary-row total">
                     <span>Total</span>
-                    <span class="totalFee">$691.20</span>
+                    <span class="totalFee"></span>
                 </div>
                 <a href="checkout.html" class="btn btn-secondary">
                     Proceed to Checkout

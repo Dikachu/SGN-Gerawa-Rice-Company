@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Tracking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #003366;
+            --accent-color: #b8860b;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --bg-light: #f9f9f9;
+            --bg-dark: #101010;
+            --white: #ffffff;
+            --border-color: #e0e0e0;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .order-number {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .order-number span {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .tracking-card {
+            background: var(--white);
+            padding: 40px 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .tracking-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 32px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--border-color);
+            z-index: 1;
+        }
+
+        .progress-line-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 3px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 24px;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .step.active .step-icon {
+            border-color: var(--accent-color);
+            background: var(--accent-color);
+            color: var(--white);
+        }
+
+        .step.completed .step-icon {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .step-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .step-date {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .order-details {
+            background: var(--bg-light);
+            padding: 24px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .detail-value {
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 14px;
+            text-align: right;
+        }
+
+        .action-button {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: var(--transition);
+        }
+
+        .action-button:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .header {
+                padding: 24px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .tracking-card {
+                padding: 30px 20px;
+            }
+
+            .tracking-steps {
+                margin-bottom: 30px;
+            }
+
+            .step-icon {
+                width: 56px;
+                height: 56px;
+                font-size: 20px;
+            }
+
+            .progress-line {
+                top: 28px;
+            }
+
+            .step-title {
+                font-size: 14px;
+            }
+
+            .step-date {
+                font-size: 12px;
+            }
+
+            .order-details {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .step-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 18px;
+            }
+
+            .progress-line {
+                top: 24px;
+            }
+
+            .step-title {
+                font-size: 13px;
+            }
+
+            .step-date {
+                font-size: 11px;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .detail-value {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Track Your Order</h1>
+            <p class="order-number">Order ID: <span>#ORD-2024-1234</span></p>
+        </div>
+
+        <div class="tracking-card">
+            <div class="tracking-steps">
+                <div class="progress-line">
+                    <div class="progress-line-fill" id="progressFill"></div>
+                </div>
+                
+                <div class="step completed" data-step="1">
+                    <div class="step-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="step-title">Ordered</div>
+                    <div class="step-date">Dec 1, 2024</div>
+                </div>
+
+                <div class="step active" data-step="2">
+                    <div class="step-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="step-title">Delivered</div>
+                    <div class="step-date">In Transit</div>
+                </div>
+
+                <div class="step" data-step="3">
+                    <div class="step-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <div class="step-title">Received</div>
+                    <div class="step-date">Pending</div>
+                </div>
+            </div>
+
+            <div class="order-details">
+                <div class="detail-row">
+                    <span class="detail-label">Estimated Delivery</span>
+                    <span class="detail-value">Dec 5, 2024</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Shipping Method</span>
+                    <span class="detail-value">Express Delivery</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Tracking Number</span>
+                    <span class="detail-value">TRK98765432</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Order Total</span>
+                    <span class="detail-value">$149.99</span>
+                </div>
+            </div>
+
+            <button class="action-button" onclick="updateStatus()">
+                <i class="fas fa-sync-alt"></i> Refresh Status
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Set initial progress based on active step
+        function setProgress() {
+            const activeStep = document.querySelector('.step.active');
+            const completedSteps = document.querySelectorAll('.step.completed');
+            const totalSteps = 3;
+            const currentStep = completedSteps.length + (activeStep ? 1 : 0);
+            const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Simulate status update
+        function updateStatus() {
+            const steps = document.querySelectorAll('.step');
+            const activeStep = document.querySelector('.step.active');
+            
+            if (activeStep && activeStep.nextElementSibling) {
+                activeStep.classList.remove('active');
+                activeStep.classList.add('completed');
+                activeStep.querySelector('.step-date').textContent = 'Dec ' + (parseInt(activeStep.querySelector('.step-date').textContent.match(/\d+/)[0]) + 1) + ', 2024';
+                
+                const nextStep = activeStep.nextElementSibling;
+                nextStep.classList.add('active');
+                nextStep.querySelector('.step-date').textContent = 'In Progress';
+                
+                setProgress();
+            }
+        }
+
+        // Initialize progress on load
+        setProgress();
+    </script>
+</body>
+</html>

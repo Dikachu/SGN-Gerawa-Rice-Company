@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Status</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #003366;
+            --accent-color: #b8860b;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --bg-light: #f9f9f9;
+            --bg-dark: #101010;
+            --white: #ffffff;
+            --border-color: #e0e0e0;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-light);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .status-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 48px 32px;
+            text-align: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .success .icon-wrapper {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .failed .icon-wrapper {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .icon-wrapper i {
+            font-size: 40px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--text-light);
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .info-box {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 32px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .transaction-id {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: #002347;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: var(--white);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: var(--white);
+        }
+
+        .btn-accent:hover {
+            background-color: #9a7209;
+            transform: translateY(-1px);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 24px;
+            color: var(--text-light);
+            font-size: 14px;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--primary-color);
+        }
+
+        .back-link i {
+            margin-right: 6px;
+        }
+
+        .demo-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 1000;
+        }
+
+        .demo-toggle:hover {
+            background: #002347;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .status-card {
+                padding: 36px 24px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .subtitle {
+                font-size: 15px;
+            }
+
+            .icon-wrapper {
+                width: 70px;
+                height: 70px;
+            }
+
+            .icon-wrapper i {
+                font-size: 35px;
+            }
+
+            .info-box {
+                padding: 16px;
+            }
+
+            .btn {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="demo-toggle" onclick="togglePage()">Toggle Page</button>
+
+    <!-- SUCCESS PAGE -->
+    <div class="container success" id="successPage">
+        <div class="status-card">
+            <div class="icon-wrapper">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            
+            <h1>Payment Successful!</h1>
+            <p class="subtitle">Your transaction has been completed successfully. A confirmation email has been sent to your registered email address.</p>
+            
+            <div class="info-box">
+                <div class="info-row">
+                    <span class="info-label">Transaction ID</span>
+                    <span class="info-value transaction-id">TXN-2024-896541</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Amount Paid</span>
+                    <span class="info-value">$249.00</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Date & Time</span>
+                    <span class="info-value">Dec 01, 2024 - 10:45 AM</span>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Track Order
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-download"></i>
+                    Download Receipt
+                </button>
+            </div>
+
+            <a href="#" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Home
+            </a>
+        </div>
+    </div>
+
+    <!-- FAILED PAGE -->
+    <div class="container failed hidden" id="failedPage">
+        <div class="status-card">
+            <div class="icon-wrapper">
+                <i class="fas fa-times-circle"></i>
+            </div>
+            
+            <h1>Payment Failed</h1>
+            <p class="subtitle">We couldn't process your payment. Please check your payment details and try again.</p>
+            
+            <div class="info-box">
+                <div class="info-row">
+                    <span class="info-label">Reference ID</span>
+                    <span class="info-value transaction-id">REF-2024-896541</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Reason</span>
+                    <span class="info-value">Insufficient Funds</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Date & Time</span>
+                    <span class="info-value">Dec 01, 2024 - 10:45 AM</span>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-accent">
+                    <i class="fas fa-redo"></i>
+                    Try Again
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-headset"></i>
+                    Contact Support
+                </button>
+            </div>
+
+            <a href="#" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Home
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function togglePage() {
+            const successPage = document.getElementById('successPage');
+            const failedPage = document.getElementById('failedPage');
+            
+            successPage.classList.toggle('hidden');
+            failedPage.classList.toggle('hidden');
+        }
+
+        // Button click handlers
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                const text = this.textContent.trim();
+                
+                if (text.includes('Track Order')) {
+                    console.log('Tracking order...');
+                } else if (text.includes('Download Receipt')) {
+                    console.log('Downloading receipt...');
+                } else if (text.includes('Try Again')) {
+                    console.log('Redirecting to payment...');
+                } else if (text.includes('Contact Support')) {
+                    console.log('Opening support...');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,6 +1,12 @@
 import { cartManager } from './cart.js';
+
+type HTMLElementType = {
+    [key: string]: HTMLElement | HTMLInputElement | null;
+};
+
 class Checkout {
-    element = {};
+    private element: HTMLElementType = {};
+
     constructor() {
         this.element = {
             checkoutSummary: document.getElementById('checkoutSummary'),
@@ -11,35 +17,46 @@ class Checkout {
             placeOrder: document.getElementById('placeOrder'),
             checkoutItems: document.getElementById('checkoutItems')
         };
-        window.removeCoupon = () => this.removeCoupon();
+
+        // Expose methods to window
+        (window as any).removeCoupon = () => this.removeCoupon();
+
         this.init();
     }
+
     init() {
         this.setupEventListeners();
         this.setupCartListener();
         this.loadItems();
         this.restoreCoupon();
     }
+
     setupEventListeners() {
         this.element.applyCoupon?.addEventListener('click', () => {
             this.applyCoupon();
         });
+
         this.element.placeOrder?.addEventListener('click', () => {
             this.processOrder();
         });
     }
-    setupCartListener() {
-        window.addEventListener('cartUpdated', ((e) => {
+
+    // Listen to cart updates from CartManager
+    setupCartListener(): void {
+        window.addEventListener('cartUpdated', ((e: CustomEvent) => {
             this.loadItems();
-        }));
+        }) as EventListener);
     }
+
     loadItems() {
         const cartItems = cartManager.getItems();
-        if (!this.element.checkoutItems)
-            return;
+
+        if (!this.element.checkoutItems) return;
+
         if (cartItems.length > 0) {
-            document.querySelector('main').classList.remove('empty');
+            document.querySelector('main')!.classList.remove('empty')
             this.element.checkoutItems.innerHTML = '';
+
             cartItems.forEach(item => {
                 const itemDiv = `
                 <div class="cart-item" data-id="${item.id}">
@@ -60,12 +77,11 @@ class Checkout {
                     </div>
                 </div>
                 `;
-                this.element.checkoutItems.innerHTML += itemDiv;
+                this.element.checkoutItems!.innerHTML += itemDiv;
             });
-        }
-        else {
-            document.querySelector('main').classList.add('empty');
-            document.querySelector('main').innerHTML = `
+        } else {
+            document.querySelector('main')!.classList.add('empty')
+            document.querySelector('main')!.innerHTML = `
                 <section>
                     <h1>
                         Your cart is empty
@@ -81,45 +97,54 @@ class Checkout {
                 </section>
             `;
         }
+
         this.displaySummary();
     }
+
     displaySummary() {
         const summary = cartManager.getCartSummary();
         const appliedCoupon = cartManager.getAppliedCoupon();
-        const subtotalTextEl = this.element.checkoutSummary?.querySelector('.subtotalText');
+
+        const subtotalTextEl = this.element.checkoutSummary?.querySelector('.subtotalText') as HTMLElement | null;
         if (subtotalTextEl) {
             subtotalTextEl.textContent = `Subtotal (${summary.itemCount}) item(s)`;
         }
-        const subtotalEl = this.element.checkoutSummary?.querySelector('.subtotal');
+
+        const subtotalEl = this.element.checkoutSummary?.querySelector('.subtotal') as HTMLElement | null;
         if (subtotalEl) {
             subtotalEl.textContent = `₦ ${summary.subtotal.toLocaleString()}`;
         }
-        const shippingEl = this.element.checkoutSummary?.querySelector('.shipping');
+
+        const shippingEl = this.element.checkoutSummary?.querySelector('.shipping') as HTMLElement | null;
         if (shippingEl) {
             shippingEl.textContent = `₦ ${summary.shipping.toLocaleString()}`;
         }
+
+        // Show/hide discount row
         if (this.element.discountRow) {
             if (appliedCoupon) {
                 this.element.discountRow.style.display = 'flex';
-                const discountAmountEl = this.element.discountRow.querySelector('.discountAmount');
+                const discountAmountEl = this.element.discountRow.querySelector('.discountAmount') as HTMLElement | null;
                 if (discountAmountEl) {
                     discountAmountEl.textContent = `₦ ${summary.discount.toLocaleString()}`;
                 }
-            }
-            else {
+            } else {
                 this.element.discountRow.style.display = 'none';
             }
         }
-        const totalEl = this.element.checkoutSummary?.querySelector('.checkoutTotal');
+
+        const totalEl = this.element.checkoutSummary?.querySelector('.checkoutTotal') as HTMLElement | null;
         if (totalEl) {
             totalEl.textContent = `₦ ${summary.total.toLocaleString()}`;
         }
     }
+
     applyCoupon() {
-        const code = this.element.couponCode.value;
+        const code = (this.element.couponCode as HTMLInputElement).value;
         const result = cartManager.applyCoupon(code);
-        if (!this.element.couponMessage)
-            return;
+
+        if (!this.element.couponMessage) return;
+
         if (result.success) {
             this.element.couponMessage.innerHTML = `
             <div class="applied-coupon">
@@ -132,8 +157,7 @@ class Checkout {
                 <button class="remove-coupon" onclick="removeCoupon()">&times;</button>
             </div>
             `;
-        }
-        else {
+        } else {
             this.element.couponMessage.innerHTML = `
             <div style="color: #dc3545; margin-top: 10px;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -149,17 +173,23 @@ class Checkout {
             }, 5000);
         }
     }
+
     removeCoupon() {
         cartManager.removeCoupon();
-        this.element.couponCode.value = '';
+        (this.element.couponCode as HTMLInputElement).value = '';
+
         if (this.element.couponMessage) {
             this.element.couponMessage.innerHTML = '';
         }
     }
+
+    // Restore coupon display if one was already applied
     restoreCoupon() {
         const appliedCoupon = cartManager.getAppliedCoupon();
+
         if (appliedCoupon && this.element.couponMessage) {
-            this.element.couponCode.value = appliedCoupon.code;
+            (this.element.couponCode as HTMLInputElement).value = appliedCoupon.code;
+
             this.element.couponMessage.innerHTML = `
             <div class="applied-coupon">
                 <span>
@@ -173,11 +203,12 @@ class Checkout {
             `;
         }
     }
+
     processOrder() {
         window.location.href = 'track.html';
     }
 }
+
 document.addEventListener('DOMContentLoaded', () => {
     new Checkout();
 });
-//# sourceMappingURL=checkout.js.map
