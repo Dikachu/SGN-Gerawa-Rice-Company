@@ -1,0 +1,149 @@
+.faq-main {
+    padding: 30px;
+}
+
+/* FAQ List */
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.faq-item {
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.faq-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.faq-item-header:hover {
+    background-color: var(--bg-light);
+}
+
+.faq-question-section {
+    flex: 1;
+}
+
+.faq-question {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+}
+
+.faq-category {
+    display: inline-block;
+    font-size: 12px;
+    color: var(--text-light);
+    background-color: var(--bg-light);
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+.faq-toggle {
+    font-size: 16px;
+    color: var(--text-light);
+    transition: var(--transition);
+}
+
+.faq-item.active .faq-toggle {
+    transform: rotate(180deg);
+}
+
+.faq-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.faq-content.active {
+    max-height: 500px;
+}
+
+.faq-answer {
+    padding: 0 20px 20px 20px;
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.faq-actions {
+    padding: 0 20px 20px 20px;
+    display: flex;
+    gap: 10px;
+}
+
+/* Empty State */
+.empty-faq {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-light);
+}
+
+.empty-faq i {
+    font-size: 48px;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.empty-faq p {
+    font-size: 16px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .faq-main {
+        padding: 20px;
+    }
+
+    .faq-item-header {
+        padding: 15px;
+    }
+
+    .faq-question {
+        font-size: 15px;
+    }
+
+    .faq-answer {
+        padding: 0 15px 15px 15px;
+    }
+
+    .faq-actions {
+        padding: 0 15px 15px 15px;
+        flex-wrap: wrap;
+    }
+
+    .faq-actions .btn {
+        flex: 1;
+        min-width: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .faq-main {
+        padding: 15px;
+    }
+
+    .faq-item-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .faq-actions {
+        flex-direction: column;
+    }
+
+    .faq-actions .btn {
+        width: 100%;
+    }
+}

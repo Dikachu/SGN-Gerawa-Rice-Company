@@ -7,7 +7,10 @@
     --bg-light: #f9f9f9;
     --bg-dark: #101010;
     --white: #ffffff;
+    --error-color: #dc3545;
     --border-color: #e0e0e0;
+    --box-shaow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    --hover-shaow: 0 4px 12px rgba(0, 0, 0, 0.08);
     --transition: all 0.3s ease;
 }
 
@@ -128,9 +131,10 @@ svg {
     align-items: center;
     justify-content: center;
     gap: .5rem;
-    padding: 15px 40px;
+    padding: 1rem 2.5rem;
     border-radius: 5px;
     font-weight: 600;
+    white-space: nowrap;
 
     &:hover {
         transform: translateY(-2px);
@@ -139,6 +143,11 @@ svg {
     &:active {
         transform: translateY(0);
     }
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
 }
 
 .btn-primary {
@@ -170,16 +179,34 @@ svg {
     background: var(--primary-color);
 }
 
+.btn-error {
+    background: transparent;
+    border: 2px solid var(--error-color);
+    color: var(--error-color);
+}
+
+.btn-error:hover {
+    color: var(--white);
+    background: var(--error-color);
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+    gap: 2rem;
+}
+
+@media (max-width: 400px) {
+    .products-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
 /* Product Card Design */
 .product-card {
     background: var(--white);
     border: 2px solid var(--border-color);
     overflow: hidden;
-    /* display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    gap: 15px; */
 
     .card-image {
         width: 100%;
@@ -227,7 +254,8 @@ svg {
             gap: 10px;
         }
 
-        button {
+        button,
+        a[class*="btn"] {
             width: 100%;
             border-radius: 0;
         }
@@ -259,62 +287,6 @@ svg {
     }
 
 }
-
-/* .product-card {
-    background: var(--white);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    gap: 15px;
-
-    img {
-        width: 100%;
-        aspect-ratio: 3/2;
-        object-fit: cover;
-    }
-
-    img:hover {
-        transform: scale(1.05);
-    }
-
-    button {
-        width: 100%;
-        border-radius: 0;
-    }
-
-    .info {
-        width: 100%;
-        padding: 0 15px;
-    }
-
-    .info>div {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .price {
-        font-weight: 700;
-        color: var(--primary-color);
-        font-size: 1.5rem;
-    }
-
-    .price span {
-        font-size: .9rem;
-        color: var(--text-light);
-        font-weight: 400;
-    }
-
-    .view-details:hover {
-        transform: scale(1.1);
-    }
-} */
 
 .product-card:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -483,6 +455,7 @@ textarea::placeholder {
 }
 
 .logo {
+    height: 3.1rem;
     width: auto;
 }
 
@@ -514,6 +487,7 @@ textarea::placeholder {
     }
 
     .icon {
+        display: block;
         background: none;
         border: none;
         color: var(--text-dark);
@@ -533,9 +507,13 @@ textarea::placeholder {
         background: var(--accent-color);
         color: var(--white);
         font-size: .8rem;
-        padding: 2px 5px;
         border-radius: 10px;
         font-weight: 600;
+        height: 18px;
+        width: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .profile-wrapper {
@@ -920,10 +898,10 @@ body:has(.modal.show) {
         .remove-button {
             padding: 8px 12px;
             border-radius: 5px;
-            border: 1px solid #dc3545;
+            border: 1px solid var(--error-color);
             color: var(--text-light);
             cursor: pointer;
-            color: #dc3545;
+            color: var(--error-color);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -935,13 +913,14 @@ body:has(.modal.show) {
         }
 
         .remove-button:hover {
-            background-color: #dc3545;
+            background-color: var(--error-color);
             color: var(--white);
         }
     }
 }
 
-.empty-cart {
+.empty-cart,
+.empty {
     text-align: center;
     padding: 4rem 1.5rem;
     background: var(--white);
@@ -961,6 +940,12 @@ body:has(.modal.show) {
     p {
         margin-bottom: 25px;
     }
+}
+
+.empty svg {
+    height: 6rem;
+    width: 6rem;
+    margin-bottom: 10px;
 }
 
 #cartItems.empty+.summary-box {
@@ -1001,12 +986,14 @@ body:has(.modal.show) {
         margin-top: 10px;
     }
 
-    a, button {
+    a,
+    button {
         width: 100%;
         margin-top: 20px;
     }
 
-    a:hover, button:hover {
+    a:hover,
+    button:hover {
         gap: 10px;
     }
 }

@@ -184,12 +184,6 @@ aside.hidden {
     }
 }
 
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1rem;
-}
-
 
 /* .load-more {
     width: 100%;
@@ -206,7 +200,6 @@ aside.hidden {
 
 
 @media (max-width: 768px) {
-
     .shop-wrapper,
     .shop-wrapper:has(aside.hidden) {
         grid-template-columns: 1fr;

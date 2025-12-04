@@ -1,0 +1,44 @@
+.enquiries-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .enquiry {
+        padding: 1.5rem;
+        border: 1px solid var(--border-color);
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem 3rem;
+        flex: 1;
+
+        >div:first-child {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+
+            p:last-child {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                .readMore {
+                    color: blue;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .enquiry-actions {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .enquiry {
+        flex-direction: column !important;
+    }
+}
